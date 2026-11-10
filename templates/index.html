@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="es">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Taller 1 · Consulta bursátil</title></head>
+<body>
+  <h1>Consulta bursátil · {{ ticker }}</h1>
+  <form method="get" action="/">
+    <label>Ticker <input name="ticker" value="{{ ticker }}" maxlength="24" required></label>
+    <label>Desde <input type="date" name="start" value="{{ start }}" required></label>
+    <label>Hasta (exclusiva) <input type="date" name="end" value="{{ end }}" required></label>
+    <button type="submit">Consultar</button>
+  </form>
+  <p>Yahoo Finance mediante yfinance. Intervalo diario, sin ajuste automático.</p>
+  <p>Período: {{ start }} ≤ fecha &lt; {{ end }}. Registros válidos: {{ count }}.</p>
+  <p>Promedio de cierre del período completo: <strong>{{ mean_close }}</strong>.</p>
+  <h2>Últimos cinco registros</h2>
+  {{ table | safe }}
+  <p><a href="{{ url_for('stock', ticker=ticker, start=start, end=end) }}">Consultar JSON</a> · <a href="/health">Estado del servicio</a></p>
+</body>
+</html>

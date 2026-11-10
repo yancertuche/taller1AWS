@@ -1,0 +1,13 @@
+{
+  "date": "2026-11-10",
+  "timezone": "America/Bogota",
+  "id": "sha256:00b4a58a176672a66d3cdcb6e2fd87437c4adb25c554d48a8524f229dd35caf7",
+  "architecture": "amd64",
+  "os": "linux",
+  "user": "10001:10001",
+  "size_bytes": 354471085,
+  "tags": ["stock-market:1.0", "yancertuche/stock-market:1.0"],
+  "base": "python:3.11-slim-bookworm@sha256:a83ba18aef0f865b1a4a611c2cf460fe446f2795673bbb9fe43be570439e3b39",
+  "published": false,
+  "remote_manifest_digest": null
+}

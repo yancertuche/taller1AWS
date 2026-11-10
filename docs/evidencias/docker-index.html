@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="es">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Taller 1 · Consulta bursátil</title></head>
+<body>
+  <h1>Consulta bursátil · GOOGL</h1>
+  <form method="get" action="/">
+    <label>Ticker <input name="ticker" value="GOOGL" maxlength="24" required></label>
+    <label>Desde <input type="date" name="start" value="2020-01-01" required></label>
+    <label>Hasta (exclusiva) <input type="date" name="end" value="2026-11-10" required></label>
+    <button type="submit">Consultar</button>
+  </form>
+  <p>Yahoo Finance mediante yfinance. Intervalo diario, sin ajuste automático.</p>
+  <p>Período: 2020-01-01 ≤ fecha &lt; 2026-11-10. Registros válidos: 1723.</p>
+  <p>Promedio de cierre del período completo: <strong>159.7678</strong>.</p>
+  <h2>Últimos cinco registros</h2>
+  <table class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Open</th>
+      <th>High</th>
+      <th>Low</th>
+      <th>Close</th>
+      <th>Volume</th>
+    </tr>
+    <tr>
+      <th>Date</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2026-11-03 00:00:00-05:00</th>
+      <td>280.230011</td>
+      <td>281.609985</td>
+      <td>277.200012</td>
+      <td>280.029999</td>
+      <td>34974500</td>
+    </tr>
+    <tr>
+      <th>2026-11-04 00:00:00-05:00</th>
+      <td>283.510010</td>
+      <td>296.489990</td>
+      <td>283.399994</td>
+      <td>288.929993</td>
+      <td>51550300</td>
+    </tr>
+    <tr>
+      <th>2026-11-05 00:00:00-05:00</th>
+      <td>293.970001</td>
+      <td>295.600006</td>
+      <td>277.070007</td>
+      <td>282.570007</td>
+      <td>53412800</td>
+    </tr>
+    <tr>
+      <th>2026-11-06 00:00:00-05:00</th>
+      <td>284.899994</td>
+      <td>290.489990</td>
+      <td>284.589996</td>
+      <td>284.779999</td>
+      <td>36345900</td>
+    </tr>
+    <tr>
+      <th>2026-11-09 00:00:00-05:00</th>
+      <td>292.049988</td>
+      <td>296.329987</td>
+      <td>288.010010</td>
+      <td>288.149994</td>
+      <td>36497900</td>
+    </tr>
+  </tbody>
+</table>
+  <p><a href="/api/stock?ticker=GOOGL&amp;start=2020-01-01&amp;end=2026-11-10">Consultar JSON</a> · <a href="/health">Estado del servicio</a></p>
+</body>
+</html>

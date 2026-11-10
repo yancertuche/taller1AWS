@@ -1,0 +1,8 @@
+**
+!requirements.txt
+!requirements.lock
+!app.py
+!read_value_yf.py
+!gunicorn.conf.py
+!templates/
+!templates/index.html

@@ -1,0 +1,19 @@
+Taller 1 — registro de pruebas efectivamente ejecutadas
+Fecha: 2026-11-10, America/Bogota
+
+Entorno local: Python 3.10.12, Ubuntu 22.04.5 LTS
+Comando: .venv/bin/python -m unittest discover -v
+Resultado final observado: Ran 24 tests in 0.297s — OK
+Comando: .venv/bin/python -m pip check
+Resultado observado: No broken requirements found.
+
+Contenedor: stock-market:1.0, Python 3.11, UID/GID 10001
+Comando: docker run --rm --network none --read-only [límites y montaje tests readonly] stock-market:1.0 python -m unittest discover -v
+Comando completo reproducible: README.md, sección 7.
+Resultado observado: Ran 24 tests in 0.271s — OK
+Acceso de red durante la suite en Docker: deshabilitado mediante --network none.
+Los datos de estas pruebas son artificiales y se inyectan con unittest.mock.
+
+La primera ejecución local detectó un error en la simulación de fecha de una prueba;
+se corrigió el fixture de reloj y se ejecutó nuevamente la suite completa, que pasó.
+Las verificaciones HTTP reales del proveedor están en local-http.json y docker-http.json.

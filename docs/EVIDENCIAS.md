@@ -55,7 +55,24 @@ El **10 de noviembre de 2026** inicié el lanzamiento de la máquina virtual des
 | Sistema seleccionado | Ubuntu Server 24.04 LTS, amd64 |
 | Tipo de instancia | `t3.micro` |
 | Resultado de la consola | `Success`: solicitud de lanzamiento aceptada |
+| Estado observado | `Running`, con `3/3 checks passed` |
+| Zona de disponibilidad | `us-east-1d` |
+| IPv4 pública asignada | `34.229.203.207` |
+| DNS público | `ec2-34-229-203-207.compute-1.amazonaws.com` |
 
 ![Confirmación del lanzamiento de la instancia EC2](evidencias/ec2-lanzamiento.png)
 
-La captura registra el inicio del lanzamiento. El siguiente paso es comprobar el estado de la instancia, instalar Docker y ejecutar la imagen publicada. Completaré esta evidencia con la URL pública, el informe `evidencias/ec2-http.json` y una captura de la aplicación funcionando desde Internet.
+![Instancia EC2 en ejecución con IP pública](evidencias/ec2-running.png)
+
+Las siguientes capturas muestran los detalles de la VM y las opciones de conexión. La pantalla de conexión confirma que las tres comprobaciones de estado finalizaron correctamente.
+
+| Captura | Evidencia |
+| --- | --- |
+| [Resumen de la instancia](evidencias/ec2-resumen.png) | Estado, IP pública, tipo de instancia e IMDSv2 obligatorio |
+| [Conexión desde el navegador](evidencias/ec2-conexion-web.png) | EC2 Instance Connect, usuario `ubuntu` y comprobaciones `3/3` |
+| [Instrucciones de conexión SSH](evidencias/ec2-conexion-ssh.png) | Nombre de la clave y DNS del servidor |
+| [Primer intento de conexión web](evidencias/ec2-error-conexion-web.png) | Error al establecer la conexión SSH |
+
+El primer intento de conexión web devolvió `Failed to connect to your instance`. Revisaré las reglas de entrada SSH del grupo de seguridad antes de reintentar. La conexión a Ubuntu y el despliegue del contenedor todavía no se han completado.
+
+Completaré esta evidencia con el informe `evidencias/ec2-http.json` y una captura de la aplicación funcionando desde Internet.

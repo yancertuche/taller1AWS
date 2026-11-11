@@ -29,6 +29,8 @@ La arquitectura amd64 coincide con la imagen construida en mi equipo. No es nece
 
 ## Instalar Docker y ejecutar la imagen
 
+Para entrar desde el navegador, seleccionar la instancia y abrir **Connect → In web browser → EC2 Instance Connect**, con IP pública y usuario `ubuntu`. El grupo de seguridad debe permitir SSH/TCP 22 desde la lista administrada `com.amazonaws.us-east-1.ec2-instance-connect`, además de la regla desde mi IP para el cliente SSH local. Esta lista corresponde al servicio AWS que realiza la conexión web. [Requisitos de EC2 Instance Connect](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-connect-prerequisites.html).
+
 El archivo `deploy/ec2-bootstrap.sh` instala Docker desde su repositorio oficial y ejecuta la imagen con el puerto `80:5000`. Desde la raíz del proyecto, reemplazando `IP_PUBLICA`:
 
 ```bash
@@ -56,5 +58,16 @@ Si falla, revisar el estado de la instancia, el grupo de seguridad y `sudo docke
 ## Costos
 
 EC2, el disco EBS, la IPv4 pública y algunas transferencias pueden generar cargos. Antes del lanzamiento revisaré los precios de la región y los créditos de mi cuenta. Detener la VM no elimina el disco; su almacenamiento puede seguir facturándose.
+
+## Cierre de la práctica
+
+Mantendré la instancia únicamente durante el despliegue y la toma de evidencias:
+
+1. Guardar capturas de la instancia en ejecución, `docker ps` y la aplicación abierta desde la IP pública, además del informe HTTP.
+2. Comprobar que el volumen raíz tenga activada la eliminación al terminar. Seleccionar la instancia del taller en **EC2 → Instances → Instance state → Terminate (delete) instance**. Esta acción es irreversible; verificar antes que las evidencias estén guardadas.
+3. Comprobar que no queden volúmenes ni direcciones Elastic IP creados para la práctica. Conservar los recursos que ya existían antes del taller.
+4. Guardar una captura del estado `terminated`. La URL deja de estar disponible al retirar la instancia; las capturas y el informe documentan la ejecución.
+
+Referencia: [terminación de instancias EC2](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/terminating-instances.html).
 
 Referencias: [precios EC2](https://aws.amazon.com/ec2/pricing/on-demand/), [precios EBS](https://aws.amazon.com/ebs/pricing/), [precios IPv4](https://aws.amazon.com/vpc/pricing/), [reglas de seguridad](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/security-group-rules-reference.html) e [instalación Docker](https://docs.docker.com/engine/install/ubuntu/).

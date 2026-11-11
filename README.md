@@ -144,6 +144,8 @@ Desplegué la imagen en una instancia `t3.micro` con Ubuntu 24.04 LTS amd64, en 
 
 El 10 de noviembre de 2026 abrí [http://34.229.203.207/](http://34.229.203.207/) desde el navegador de mi equipo y comprobé la consulta de GOOGL: **1724 registros** y promedio de cierre **159,8418**. Guardé la [captura del acceso público](docs/evidencias/ec2-aplicacion-publica.png). La URL corresponde al despliegue de la práctica y depende de que la instancia permanezca en ejecución.
 
+También accedí mediante el [nombre DNS público de EC2](http://ec2-34-229-203-207.compute-1.amazonaws.com/), como en la guía del taller. El nombre apunta a la misma instancia; guardé la [captura del acceso por DNS](docs/evidencias/ec2-aplicacion-dns-publico.png).
+
 La [guía de EC2](docs/DESPLIEGUE_EC2.md) reúne los pasos del despliegue y su cierre. Para repetir la comprobación mediante el script:
 
 ```bash

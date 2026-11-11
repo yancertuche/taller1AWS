@@ -61,6 +61,8 @@ El puerto 80 de la VM dirige las solicitudes al 5000 del contenedor. La aplicaci
 
 Abrí `http://34.229.203.207/` desde el navegador y comprobé que la aplicación mostraba la consulta de GOOGL con 1724 registros y promedio de cierre de 159,8418. Guardé la captura en [EVIDENCIAS.md](EVIDENCIAS.md).
 
+Repetí el acceso con `http://ec2-34-229-203-207.compute-1.amazonaws.com/`, el nombre DNS público indicado en los detalles de la instancia, y guardé la captura con ese nombre visible en la barra del navegador.
+
 Para repetir la verificación por terminal mientras la instancia esté disponible:
 
 ```bash

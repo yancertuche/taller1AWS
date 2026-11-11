@@ -142,11 +142,13 @@ docker pull yancertuche/stock-market:1.0
 
 Desplegué la imagen en una instancia `t3.micro` con Ubuntu 24.04 LTS amd64, en Norte de Virginia (`us-east-1`), publicando el puerto `80:5000`. Docker mostró el contenedor saludable y `/health` respondió correctamente dentro de la VM.
 
-El 10 de noviembre de 2026 abrí [http://34.229.203.207/](http://34.229.203.207/) desde el navegador de mi equipo y comprobé la consulta de GOOGL: **1724 registros** y promedio de cierre **159,8418**. Guardé la [captura del acceso público](docs/evidencias/ec2-aplicacion-publica.png). La URL corresponde al despliegue de la práctica y depende de que la instancia permanezca en ejecución.
+El 10 de noviembre de 2026 abrí `http://34.229.203.207/` desde el navegador de mi equipo y comprobé la consulta de GOOGL: **1724 registros** y promedio de cierre **159,8418**. Guardé la [captura del acceso público](docs/evidencias/ec2-aplicacion-publica.png).
 
-También accedí mediante el [nombre DNS público de EC2](http://ec2-34-229-203-207.compute-1.amazonaws.com/), como en la guía del taller. El nombre apunta a la misma instancia; guardé la [captura del acceso por DNS](docs/evidencias/ec2-aplicacion-dns-publico.png).
+También accedí mediante `http://ec2-34-229-203-207.compute-1.amazonaws.com/`, como en la guía del taller. El nombre apuntaba a la misma instancia; guardé la [captura del acceso por DNS](docs/evidencias/ec2-aplicacion-dns-publico.png).
 
-La [guía de EC2](docs/DESPLIEGUE_EC2.md) reúne los pasos del despliegue y su cierre. Para repetir la comprobación mediante el script:
+**Práctica finalizada:** eliminé la instancia y comprobé que no quedaran volúmenes EBS ni Elastic IPs en `us-east-1`. Las direcciones anteriores ya no corresponden a un servicio activo de este taller. Conservé las [evidencias del cierre](docs/EVIDENCIAS.md#cierre-de-la-práctica).
+
+La [guía de EC2](docs/DESPLIEGUE_EC2.md) reúne los pasos del despliegue y su cierre. Para verificar un nuevo despliegue mediante el script, usando su nueva IP pública:
 
 ```bash
 python3 scripts/verify_http.py http://IP_PUBLICA \

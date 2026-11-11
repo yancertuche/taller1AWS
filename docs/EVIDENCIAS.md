@@ -55,7 +55,7 @@ El **10 de noviembre de 2026** inicié el lanzamiento de la máquina virtual des
 | Sistema observado en la terminal | Ubuntu 24.04.5 LTS, x86_64 |
 | Tipo de instancia | `t3.micro` |
 | Resultado de la consola | `Success`: solicitud de lanzamiento aceptada |
-| Estado observado | `Running`, con `3/3 checks passed` |
+| Estado durante el despliegue | `Running`, con `3/3 checks passed` |
 | Zona de disponibilidad | `us-east-1d` |
 | IPv4 pública asignada | `34.229.203.207` |
 | DNS público | `ec2-34-229-203-207.compute-1.amazonaws.com` |
@@ -102,3 +102,19 @@ También abrí [http://ec2-34-229-203-207.compute-1.amazonaws.com/](http://ec2-3
 ![Consulta bursátil mediante el nombre DNS público de EC2](evidencias/ec2-aplicacion-dns-publico.png)
 
 Con este despliegue apliqué infraestructura como servicio (IaaS): configuré una máquina virtual y su acceso de red, instalé Docker y ejecuté la misma imagen publicada en Docker Hub.
+
+## Cierre de la práctica
+
+El **10 de noviembre de 2026** eliminé la instancia `i-024c5a37a5b322320` desde la consola de AWS y comprobé el estado **`Terminated`**. Después revisé la misma región, `us-east-1`: no quedaban volúmenes EBS ni direcciones Elastic IP. La aplicación dejó de estar disponible en las direcciones registradas durante la práctica.
+
+| Captura | Resultado observado |
+| --- | --- |
+| [Confirmación de eliminación](evidencias/ec2-confirmacion-eliminacion.png) | Instancia del taller seleccionada; `Skip OS shutdown` desmarcado |
+| [Eliminación iniciada](evidencias/ec2-eliminacion-iniciada.png) | AWS aceptó la solicitud; detalle en `Shutting-down` |
+| [Instancia terminada](evidencias/ec2-terminated.png) | Estado final `Terminated`, sin IP ni DNS públicos asignados |
+| [Volúmenes EBS](evidencias/ec2-sin-volumenes.png) | Ningún volumen en la región |
+| [Direcciones Elastic IP](evidencias/ec2-sin-elastic-ips.png) | Ninguna Elastic IP en la región |
+
+![Instancia del taller eliminada](evidencias/ec2-terminated.png)
+
+Conservé el código, la imagen publicada y las evidencias. Al retirar los recursos después de usarlos apliqué la gestión de su ciclo de vida para controlar el consumo de nube.

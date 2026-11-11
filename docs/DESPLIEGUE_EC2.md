@@ -63,7 +63,7 @@ Abrí `http://34.229.203.207/` desde el navegador y comprobé que la aplicación
 
 Repetí el acceso con `http://ec2-34-229-203-207.compute-1.amazonaws.com/`, el nombre DNS público indicado en los detalles de la instancia, y guardé la captura con ese nombre visible en la barra del navegador.
 
-Para repetir la verificación por terminal mientras la instancia esté disponible:
+Para verificar un nuevo despliegue por terminal, sustituir `IP_PUBLICA` por su nueva dirección:
 
 ```bash
 curl --fail http://IP_PUBLICA/health
@@ -81,12 +81,12 @@ EC2, el disco EBS, la IPv4 pública y algunas transferencias pueden generar carg
 
 ## Cierre de la práctica
 
-Mantendré la instancia únicamente durante el despliegue y la toma de evidencias:
+El 10 de noviembre de 2026 finalicé la práctica desde la consola web:
 
-1. Guardar capturas de la instancia en ejecución, `docker ps` y la aplicación abierta desde la IP pública. Conservar también los informes HTTP que se hayan generado.
-2. Comprobar que el volumen raíz tenga activada la eliminación al terminar. Seleccionar la instancia del taller en **EC2 → Instances → Instance state → Terminate (delete) instance**. Esta acción es irreversible; verificar antes que las evidencias estén guardadas.
-3. Comprobar que no queden volúmenes ni direcciones Elastic IP creados para la práctica. Conservar los recursos que ya existían antes del taller.
-4. Guardar una captura del estado `terminated`. La URL deja de estar disponible al retirar la instancia; las evidencias documentan la ejecución.
+1. Guardé las capturas del despliegue, del contenedor saludable y de la consulta desde Internet.
+2. Seleccioné `i-024c5a37a5b322320` en **EC2 → Instances → Instance state → Terminate (delete) instance** y confirmé la eliminación, sin omitir el apagado del sistema operativo. El disco raíz tenía configurado `Delete on termination: Yes`.
+3. Comprobé el estado `Terminated` y revisé **Volumes** y **Elastic IPs** en `us-east-1`: ambas listas estaban vacías.
+4. Guardé las [capturas del cierre](EVIDENCIAS.md#cierre-de-la-práctica). Las direcciones públicas de la práctica ya no ofrecen el servicio; el código y la imagen permiten volver a desplegarlo.
 
 Referencia: [terminación de instancias EC2](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/terminating-instances.html).
 

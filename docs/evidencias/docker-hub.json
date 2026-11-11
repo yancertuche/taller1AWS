@@ -1,0 +1,12 @@
+{
+  "time": "2026-11-10T18:08:32.673426-05:00",
+  "repository": "yancertuche/stock-market",
+  "url": "https://hub.docker.com/r/yancertuche/stock-market",
+  "tag": "1.0",
+  "digest": "sha256:141e42fb573c64bd1cfb1516e67224f529864005acde6aa96b81a42b4a96672c",
+  "image_id": "sha256:00b4a58a176672a66d3cdcb6e2fd87437c4adb25c554d48a8524f229dd35caf7",
+  "anonymous_manifest_access": true,
+  "anonymous_pull": true,
+  "matches_tested_image": true,
+  "passed": true
+}

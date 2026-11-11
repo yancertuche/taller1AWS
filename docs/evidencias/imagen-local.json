@@ -8,6 +8,8 @@
   "size_bytes": 354471085,
   "tags": ["stock-market:1.0", "yancertuche/stock-market:1.0"],
   "base": "python:3.11-slim-bookworm@sha256:a83ba18aef0f865b1a4a611c2cf460fe446f2795673bbb9fe43be570439e3b39",
-  "published": false,
-  "remote_manifest_digest": null
+  "published": true,
+  "remote_manifest_digest": "sha256:141e42fb573c64bd1cfb1516e67224f529864005acde6aa96b81a42b4a96672c",
+  "registry_url": "https://hub.docker.com/r/yancertuche/stock-market",
+  "publication_verified_at": "2026-11-10T18:08:32.673426-05:00"
 }

@@ -1,6 +1,6 @@
 # Despliegue del servicio en AWS EC2
 
-Mi objetivo en esta etapa es ejecutar en una máquina virtual la misma imagen que probé localmente. Realizaré la configuración desde la consola de AWS para reconocer los recursos y su función.
+Ejecuté en una máquina virtual la misma imagen que probé localmente. Realicé la configuración desde la consola de AWS para reconocer los recursos y su función.
 
 ## Configuración de la instancia
 
@@ -11,7 +11,7 @@ Mi objetivo en esta etapa es ejecutar en una máquina virtual la misma imagen qu
 | Almacenamiento | EBS gp3 de 8 GiB, cifrado |
 | Red | Subred pública con salida a Internet e IPv4 pública |
 | HTTP | TCP 80 desde Internet |
-| SSH | TCP 22 únicamente desde mi IP pública (`/32`) |
+| SSH | TCP 22 desde mi IP (`/32`) y la lista del servicio EC2 Instance Connect |
 | Clave privada | Fuera del repositorio, permisos `600` |
 | Metadatos | IMDSv2 obligatorio, hop limit 1 |
 
@@ -31,19 +31,37 @@ La arquitectura amd64 coincide con la imagen construida en mi equipo. No es nece
 
 Para entrar desde el navegador, seleccionar la instancia y abrir **Connect → In web browser → EC2 Instance Connect**, con IP pública y usuario `ubuntu`. El grupo de seguridad debe permitir SSH/TCP 22 desde la lista administrada `com.amazonaws.us-east-1.ec2-instance-connect`, además de la regla desde mi IP para el cliente SSH local. Esta lista corresponde al servicio AWS que realiza la conexión web. [Requisitos de EC2 Instance Connect](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-connect-prerequisites.html).
 
-El archivo `deploy/ec2-bootstrap.sh` instala Docker desde su repositorio oficial y ejecuta la imagen con el puerto `80:5000`. Desde la raíz del proyecto, reemplazando `IP_PUBLICA`:
+Dentro de la terminal web instalé Docker Engine desde el [repositorio oficial para Ubuntu](https://docs.docker.com/engine/install/ubuntu/), con los paquetes `docker-ce`, `docker-ce-cli` y `containerd.io`. Habilité el servicio y comprobé el cliente y el servidor:
 
 ```bash
-chmod 600 "$HOME/.ssh/taller1-ec2.pem"
-scp -i "$HOME/.ssh/taller1-ec2.pem" deploy/ec2-bootstrap.sh \
-  ubuntu@IP_PUBLICA:/home/ubuntu/taller1-bootstrap.sh
-ssh -i "$HOME/.ssh/taller1-ec2.pem" ubuntu@IP_PUBLICA \
-  'sudo bash /home/ubuntu/taller1-bootstrap.sh yancertuche/stock-market:1.0'
+sudo systemctl enable --now docker
+sudo docker version
 ```
 
-El contenedor ejecuta la aplicación sin root, limita recursos y se reinicia si Docker o la VM vuelven a arrancar. El script conserva los contenedores existentes en lugar de reemplazarlos.
+Descargué la imagen publicada y ejecuté el contenedor:
+
+```bash
+sudo docker pull yancertuche/stock-market:1.0
+sudo docker run -d --name taller1-stock-market \
+  --restart unless-stopped \
+  --read-only --tmpfs /tmp:rw,noexec,nosuid,size=128m \
+  --cap-drop ALL --security-opt no-new-privileges:true \
+  --memory 768m --cpus 1 --pids-limit 128 \
+  --log-driver json-file --log-opt max-size=10m --log-opt max-file=3 \
+  -p 80:5000 \
+  yancertuche/stock-market:1.0
+
+sudo docker ps --filter name=taller1-stock-market
+curl --fail http://127.0.0.1/health
+```
+
+El puerto 80 de la VM dirige las solicitudes al 5000 del contenedor. La aplicación se ejecuta sin root, con recursos limitados y reinicio automático. Como alternativa, `deploy/ec2-bootstrap.sh` automatiza la instalación y el arranque.
 
 ## Verificar desde mi equipo
+
+Abrí `http://34.229.203.207/` desde el navegador y comprobé que la aplicación mostraba la consulta de GOOGL con 1724 registros y promedio de cierre de 159,8418. Guardé la captura en [EVIDENCIAS.md](EVIDENCIAS.md).
+
+Para repetir la verificación por terminal mientras la instancia esté disponible:
 
 ```bash
 curl --fail http://IP_PUBLICA/health
@@ -51,7 +69,7 @@ python3 scripts/verify_http.py http://IP_PUBLICA \
   --report docs/evidencias/ec2-http.json
 ```
 
-Abrir `http://IP_PUBLICA/` y guardar una captura con la tabla. La prueba debe comprobar tanto el proceso como la consulta real a Yahoo Finance. Registrar la URL y los resultados en [EVIDENCIAS.md](EVIDENCIAS.md).
+La verificación debe comprobar tanto el proceso como la consulta real a Yahoo Finance.
 
 Si falla, revisar el estado de la instancia, el grupo de seguridad y `sudo docker logs --tail 50 taller1-stock-market`. Un error 503 de Yahoo Finance indica un límite del proveedor.
 
@@ -63,10 +81,10 @@ EC2, el disco EBS, la IPv4 pública y algunas transferencias pueden generar carg
 
 Mantendré la instancia únicamente durante el despliegue y la toma de evidencias:
 
-1. Guardar capturas de la instancia en ejecución, `docker ps` y la aplicación abierta desde la IP pública, además del informe HTTP.
+1. Guardar capturas de la instancia en ejecución, `docker ps` y la aplicación abierta desde la IP pública. Conservar también los informes HTTP que se hayan generado.
 2. Comprobar que el volumen raíz tenga activada la eliminación al terminar. Seleccionar la instancia del taller en **EC2 → Instances → Instance state → Terminate (delete) instance**. Esta acción es irreversible; verificar antes que las evidencias estén guardadas.
 3. Comprobar que no queden volúmenes ni direcciones Elastic IP creados para la práctica. Conservar los recursos que ya existían antes del taller.
-4. Guardar una captura del estado `terminated`. La URL deja de estar disponible al retirar la instancia; las capturas y el informe documentan la ejecución.
+4. Guardar una captura del estado `terminated`. La URL deja de estar disponible al retirar la instancia; las evidencias documentan la ejecución.
 
 Referencia: [terminación de instancias EC2](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/terminating-instances.html).
 

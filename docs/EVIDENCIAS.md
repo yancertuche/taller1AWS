@@ -60,6 +60,11 @@ El **10 de noviembre de 2026** inicié el lanzamiento de la máquina virtual des
 | IPv4 pública asignada | `34.229.203.207` |
 | DNS público | `ec2-34-229-203-207.compute-1.amazonaws.com` |
 | Acceso a Ubuntu | Conexión exitosa desde EC2 Instance Connect con usuario `ubuntu` |
+| Docker en la VM | Engine Community 29.9.3; cliente y servidor disponibles en `linux/amd64` |
+| Imagen descargada en EC2 | `yancertuche/stock-market:1.0`, digest coincidente con Docker Hub |
+| Contenedor en EC2 | `taller1-stock-market`, estado `healthy`, publicación `80:5000` |
+| Salud comprobada dentro de la VM | `curl --fail http://127.0.0.1/health` devuelve `status: ok` |
+| Acceso público desde mi equipo | Aplicación abierta en el navegador en `http://34.229.203.207/`, con tabla bursátil |
 
 ![Confirmación del lanzamiento de la instancia EC2](evidencias/ec2-lanzamiento.png)
 
@@ -75,9 +80,20 @@ Las siguientes capturas muestran los detalles de la VM y las opciones de conexi�
 | [Primer intento de conexión web](evidencias/ec2-error-conexion-web.png) | Error al establecer la conexión SSH |
 | [Reglas de acceso para la terminal web](evidencias/ec2-reglas-conexion-web.png) | SSH desde mi IP, HTTP público y SSH desde la lista de prefijos del servicio AWS |
 | [Terminal Ubuntu en EC2](evidencias/ec2-terminal-ubuntu.png) | Sesión establecida como `ubuntu@ip-172-31-29-5` |
+| [Docker instalado en EC2](evidencias/ec2-docker-instalado.png) | `sudo docker version` confirma el cliente y el motor en ejecución |
+| [Contenedor saludable en EC2](evidencias/ec2-contenedor-healthy.png) | Descarga de imagen, ejecución y respuesta de salud dentro de la VM |
+| [Aplicación accesible desde Internet](evidencias/ec2-aplicacion-publica.png) | URL pública visible y resultado de la consulta de GOOGL |
 
 El primer intento de conexión web devolvió `Failed to connect to your instance`. El grupo de seguridad permitía SSH únicamente desde mi IP. Añadí una regla SSH/TCP 22 para la lista de prefijos de EC2 Instance Connect y conseguí abrir la terminal de Ubuntu desde el navegador.
 
 ![Conexión exitosa a Ubuntu desde EC2 Instance Connect](evidencias/ec2-terminal-ubuntu.png)
 
-El siguiente paso es instalar Docker y ejecutar la imagen publicada. Completaré esta evidencia con el informe `evidencias/ec2-http.json` y una captura de la aplicación funcionando desde Internet.
+Instalé Docker desde su repositorio oficial y habilité el servicio con `sudo systemctl enable --now docker`. Comprobé su funcionamiento mediante `sudo docker version`.
+
+Descargué `yancertuche/stock-market:1.0` y ejecuté el contenedor con el puerto `80:5000`. `docker ps` mostró el estado `healthy` y la consulta local a `/health` devolvió `status: ok`.
+
+El **10 de noviembre de 2026**, desde el navegador de mi equipo, abrí [http://34.229.203.207/](http://34.229.203.207/). La aplicación consultó **GOOGL** para el período **2020-01-01 ≤ fecha < 2026-11-11**, mostró **1724 registros válidos**, un promedio de cierre de **159,8418** y los últimos cinco registros. Esta verificación pública se realizó manualmente desde el navegador.
+
+![Aplicación desplegada en EC2 y consultada desde Internet](evidencias/ec2-aplicacion-publica.png)
+
+Con este despliegue apliqué infraestructura como servicio (IaaS): configuré una máquina virtual y su acceso de red, instalé Docker y ejecuté la misma imagen publicada en Docker Hub.

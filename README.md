@@ -15,7 +15,7 @@ El servicio muestra los últimos cinco registros y calcula el promedio de cierre
 Navegador → HTTP → Docker → Gunicorn → Flask → yfinance → Yahoo Finance
 ```
 
-En mi equipo, Docker conecta el puerto 5000 de Ubuntu con el puerto 5000 del contenedor. En EC2 se utilizará el puerto público 80 para acceder al mismo servicio.
+En mi equipo, Docker conecta el puerto 5000 de Ubuntu con el puerto 5000 del contenedor. En EC2 publiqué el puerto 80 de la máquina virtual hacia el puerto 5000 del contenedor.
 
 ## Archivos principales
 
@@ -112,6 +112,14 @@ docker run --rm --network none --read-only \
   stock-market:1.0 python -m unittest discover -v
 ```
 
+Si aparece `provider_timeout` después de cambiar de red, revisar el DNS del equipo y del contenedor. Durante la prueba local, el contenedor conservó el DNS de la red anterior; se corrigió con:
+
+```bash
+docker restart taller1-stock-market
+```
+
+Después del reinicio comprobé nuevamente las consultas reales por HTTP.
+
 ## Publicación en Docker Hub
 
 Publiqué la imagen en [Docker Hub](https://hub.docker.com/r/yancertuche/stock-market) con esta secuencia:
@@ -132,9 +140,11 @@ docker pull yancertuche/stock-market:1.0
 
 ## Despliegue en AWS EC2
 
-El siguiente paso es ejecutar esta imagen en una instancia Ubuntu amd64 y publicar el puerto `80:5000`. La [guía de EC2](docs/DESPLIEGUE_EC2.md) contiene la configuración de la VM, acceso SSH, instalación de Docker y verificación desde Internet.
+Desplegué la imagen en una instancia `t3.micro` con Ubuntu 24.04 LTS amd64, en Norte de Virginia (`us-east-1`), publicando el puerto `80:5000`. Docker mostró el contenedor saludable y `/health` respondió correctamente dentro de la VM.
 
-Para comprobar el despliegue desde mi equipo:
+El 10 de noviembre de 2026 abrí [http://34.229.203.207/](http://34.229.203.207/) desde el navegador de mi equipo y comprobé la consulta de GOOGL: **1724 registros** y promedio de cierre **159,8418**. Guardé la [captura del acceso público](docs/evidencias/ec2-aplicacion-publica.png). La URL corresponde al despliegue de la práctica y depende de que la instancia permanezca en ejecución.
+
+La [guía de EC2](docs/DESPLIEGUE_EC2.md) reúne los pasos del despliegue y su cierre. Para repetir la comprobación mediante el script:
 
 ```bash
 python3 scripts/verify_http.py http://IP_PUBLICA \

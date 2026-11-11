@@ -28,6 +28,7 @@ Consulté **GOOGL** entre el **1 de enero y el 1 de febrero de 2024**, con fecha
 
 - [Verificación HTTP local](evidencias/local-http.json).
 - [Verificación HTTP del contenedor](evidencias/docker-http.json).
+- [Verificación HTTP después de actualizar el DNS del contenedor](evidencias/docker-http-dns.json).
 - [Registro de pruebas](evidencias/pruebas.txt).
 - [Metadatos de la imagen](evidencias/imagen-local.json).
 - [Verificación pública de Docker Hub](evidencias/docker-hub.json).
@@ -42,13 +43,19 @@ La imagen se publicó y verificó el **10 de noviembre de 2026**. Su digest es:
 sha256:141e42fb573c64bd1cfb1516e67224f529864005acde6aa96b81a42b4a96672c
 ```
 
-## Despliegue público
+## Despliegue en AWS EC2
 
-Esta sección se completará al desplegar en EC2:
+El **10 de noviembre de 2026** inicié el lanzamiento de la máquina virtual desde la consola web de AWS.
 
-- Región e instancia utilizadas.
-- URL pública del servicio.
-- Informe `evidencias/ec2-http.json`.
-- Captura del navegador con la URL y la tabla de resultados.
+| Dato | Valor |
+| --- | --- |
+| Nombre | `taller1-stock-market` |
+| Región | Norte de Virginia, `us-east-1` |
+| ID de instancia | `i-024c5a37a5b322320` |
+| Sistema seleccionado | Ubuntu Server 24.04 LTS, amd64 |
+| Tipo de instancia | `t3.micro` |
+| Resultado de la consola | `Success`: solicitud de lanzamiento aceptada |
 
-La dirección `localhost` corresponde a mi equipo; la URL de EC2 permitirá demostrar el acceso desde Internet.
+![Confirmación del lanzamiento de la instancia EC2](evidencias/ec2-lanzamiento.png)
+
+La captura registra el inicio del lanzamiento. El siguiente paso es comprobar el estado de la instancia, instalar Docker y ejecutar la imagen publicada. Completaré esta evidencia con la URL pública, el informe `evidencias/ec2-http.json` y una captura de la aplicación funcionando desde Internet.
